@@ -3,6 +3,8 @@ import axios from 'axios';
 import UserReducer from './UserReducer';
 import UserContext from './UserContext';
 
+import { GET_USERS, GET_PROFILE } from '../types';
+
 // Cualquier componente dentro del UserCpontext podrán compartir el state
 const UserState = (props) => {
 	const initialState = {
@@ -13,24 +15,21 @@ const UserState = (props) => {
 	const [state, dispatch] = useReducer(UserReducer, initialState);
 
 	const getUsers = async () => {
-		const res = await axios.get(
-			'https://random-data-api.com/api/users/random_user?size=10'
-		);
-		dispatch({
-			type: 'GET_USERS',
-			payload: res.data,
-		});
+		try {
+			const res = await axios.get('https://reqres.in/api/users');
+			const data = res.data.data;
+			dispatch({ type: GET_USERS, payload: data });
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
-	const getProfile = async () => {
-		const res = await axios.get(
-			'https://random-data-api.com/api/users/random_user?id'
-		);
-		console.log(res.data);
-		dispatch({
-			type: 'GET_PROFILE',
-			payload: res.data,
-		});
+	const getProfile = async (id) => {
+		try {
+			const res = await axios.get('https://reqres.in/api/users/' + id);
+			const { data } = res;
+			dispatch({ type: GET_PROFILE, payload: data.data });
+		} catch (error) {}
 	};
 
 	return (

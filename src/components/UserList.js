@@ -1,41 +1,42 @@
-import React, { useEffect } from 'react';
-import { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import UserContext from '../context/User/UserContext';
 
-const UserList = () => {
-	const { users, getUsers, getProfile } = useContext(UserContext);
+const UsersList = () => {
+	const userContext = useContext(UserContext);
 
 	useEffect(() => {
-		getUsers();
+		userContext.getUsers();
 	}, []);
 
-	console.log(users);
-
 	return (
-		<>
-			<div className="list-group h-100">
-				{users.map((user) => (
-					<div
-						className="list-group-item list-group-item-action"
-						d-flex
-						flex-row
-						justify-content-start
-						href="#"
-						key={user.id}
-						onClick={() => getProfile(user.id)}
-					>
-						<img
-							src={user.avatar}
-							className="img-fluid mr-4 rounded-circle"
-							width="70"
-						/>
-						<p>{`${user.first_name} ${user.last_name}`}</p>
-						<p>{user.username}</p>
-					</div>
-				))}
-			</div>
-		</>
+		<div className="list-group h-100">
+			{userContext.users.length
+				? userContext.users.map((user) => (
+						<a
+							key={user.id}
+							href="#!"
+							onClick={() => userContext.getProfile(user.id)}
+							className="list-group-item list-group-item-action d-flex flex-row justify-content-start"
+						>
+							<div className="d-flex">
+								<div>
+									<img
+										src={user.avatar}
+										alt=""
+										className="img-fluid mr-4 rounded-circle"
+										width="70"
+									/>
+								</div>
+								<div className=" ps-4">
+									<p>{user.first_name + ' ' + user.last_name}</p>
+									<p>{user.email}</p>
+								</div>
+							</div>
+						</a>
+				  ))
+				: null}
+		</div>
 	);
 };
 
-export default UserList;
+export default UsersList;

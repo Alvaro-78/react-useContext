@@ -12,12 +12,13 @@ const Profile = () => {
 						src={selectedUser.avatar}
 						alt=""
 						className="card-img-top rounded-circle m-auto img-fluid"
+						style={{ width: 180 }}
 					/>
 					<h1>{`${selectedUser.first_name} ${selectedUser.last_name}`}</h1>
-					<p>{selectedUser.usename}</p>
+					<p>{selectedUser.email}</p>
 				</div>
 			) : (
-				<hi>No user selected</hi>
+				<h1>No user selected</h1>
 			)}
 		</div>
 	);
